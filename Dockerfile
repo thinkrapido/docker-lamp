@@ -9,6 +9,7 @@ ENV APACHE_RUN_DIR /var/run/apache2
 ENV APACHE_LOCK_DIR /var/lock/apache2
 ENV APACHE_LOG_DIR /var/log/apache2
 
+RUN chmod u+x /build/*.sh
 RUN /build/prepare.sh
 RUN /build/system_services.sh
 RUN /build/utilities.sh

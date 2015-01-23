@@ -16,7 +16,6 @@ Get this project
 ```
 git clone https://github.com/thinkrapido/docker-lamp.git
 cd docker-lamp
-chmod u+x *.sh
 ```
 
 Build the image

@@ -3,6 +3,12 @@ set -e
 source /build/buildconfig
 set -x
 
+function copy_run() {
+	mkdir /etc/service/$1
+	cp /build/runit/$1 /etc/service/$1/run
+	chmod 755 /etc/service/$1/run
+}
+
 ## Install apache2 server
 $minimal_apt_get_install ssl-cert apache2=2.4.7-* apache2-utils=2.4.7-*
 a2enmod rewrite
@@ -14,8 +20,7 @@ mkdir $APACHE_LOCK_DIR
 a2dissite 000-default && rm -Rf /var/www/*
 
 # install service
-mkdir /etc/service/apache2
-cp /build/runit/apache2 /etc/service/apache2/run
+copy_run apache2
 
 ## Install php apache2 mod
 $minimal_apt_get_install libapache2-mod-php5 php5-mysqlnd php5-gd php5-cli php5-xdebug
@@ -32,5 +37,4 @@ echo "GRANT ALL ON *.* TO root@'%' IDENTIFIED BY 'root'; FLUSH PRIVILEGES" | mys
 mysqladmin -uroot password root
 
 # install service
-mkdir /etc/service/mysql
-cp /build/runit/mysql /etc/service/mysql/run
+copy_run mysql
